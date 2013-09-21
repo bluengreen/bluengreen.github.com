@@ -8,7 +8,7 @@ categories: rails, activerecord
 
 If your trying to use the select method in Activercord, and you are finding that your select does not work, your issue may be with eager loading. It turns out that when you eager load with the includes method, the select method is completely ignored. 
 
-
+<!-- more -->
 
 ## This does not work
 
