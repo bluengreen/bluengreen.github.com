@@ -2,13 +2,33 @@
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
         <loc>http://bluengreen.github.io/blog/2013/09/21/linux-cheatsheet/</loc>
-        <lastmod>2013-09-21T04:24:15-05:00</lastmod>
+        <lastmod>2013-09-21T04:33:28-05:00</lastmod>
     </url>
     <url>
         <loc>
             http://bluengreen.github.io/blog/2013/09/21/rails-eager-loading-in-activerecord-ignores-select-method/
         </loc>
-        <lastmod>2013-09-21T03:38:19-05:00</lastmod>
+        <lastmod>2013-09-21T04:34:19-05:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://bluengreen.github.io/blog/2013/09/21/mac-osx-10-dot-8-rails-installation/
+        </loc>
+        <lastmod>2013-09-21T04:40:13-05:00</lastmod>
+    </url>
+    <url>
+        <loc>http://bluengreen.github.io/blog/2013/09/21/mysql-cheatsheet/</loc>
+        <lastmod>2013-09-21T04:41:15-05:00</lastmod>
+    </url>
+    <url>
+        <loc>http://bluengreen.github.io/blog/2013/09/21/mysql-setup-replication/</loc>
+        <lastmod>2013-09-21T04:41:32-05:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://bluengreen.github.io/blog/2013/09/21/cleanup-rails-controllers-with-base-controllers/
+        </loc>
+        <lastmod>2013-09-21T04:49:09-05:00</lastmod>
     </url>
     <url>
         <loc>http://bluengreen.github.io/about/</loc>
@@ -16,11 +36,11 @@
     </url>
     <url>
         <loc>http://bluengreen.github.io/blog/archives/</loc>
-        <lastmod>2013-09-21T04:24:15-05:00</lastmod>
+        <lastmod>2013-09-21T04:49:09-05:00</lastmod>
     </url>
     <url>
         <loc>http://bluengreen.github.io/</loc>
-        <lastmod>2013-09-21T04:24:15-05:00</lastmod>
+        <lastmod>2013-09-21T04:49:09-05:00</lastmod>
     </url>
     <url>
         <loc>http://bluengreen.github.io/robots.txt</loc>

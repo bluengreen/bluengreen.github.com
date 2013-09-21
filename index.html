@@ -7,7 +7,7 @@
 	<meta name="author" content="Phillip Novess">
 
 	
-	<meta name="description" content="If your trying to use the select method in Activercord, and you are finding that your select does not work, your issue may be with eager loading. It &hellip;">
+	<meta name="description" content="Dev workstation setup These instructions are for Mac OSX 10.8 Mountain Lion. Following these instructions will prepare your workstation for &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -83,6 +83,50 @@
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/2013/09/21/mac-osx-10-dot-8-rails-installation/">
+		
+			Mac OSX 10.8 Rails Installation</a>
+	</h2>
+	<div class="entry-content">
+		<h2>Dev workstation setup</h2>
+
+<p>These instructions are for Mac OSX 10.8 Mountain Lion. Following these instructions will prepare your workstation for developing in Ruby on Rails.</p>
+
+
+		
+		<a href="/blog/2013/09/21/mac-osx-10-dot-8-rails-installation/" class="more-link">Read more &rarr;</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-09-21T04:36:00-05:00" pubdate data-updated="true">Sep 21<span>st</span>, 2013</time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/mac/'>mac,</a>, <a class='category' href='/blog/categories/osx/'>osx,</a>, <a class='category' href='/blog/categories/rails/'>rails</a>
+
+
+</div>
+	
+</div>
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/2013/09/21/rails-eager-loading-in-activerecord-ignores-select-method/">
 		
 			RAILS: Eager Loading in Activerecord Ignores Select Method</a>
@@ -90,46 +134,9 @@
 	<div class="entry-content">
 		<p>If your trying to use the select method in Activercord, and you are finding that your select does not work, your issue may be with eager loading. It turns out that when you eager load with the includes method, the select method is completely ignored.</p>
 
-<h2>This does not work</h2>
-
-<figure class='code'><figcaption><span>example_controller.rb </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='rb'><span class='line'> <span class="vi">@posts</span> <span class="o">=</span> <span class="no">Post</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">&#39;title, categories.name AS category_name&#39;</span><span class="p">)</span>
-</span><span class='line'>              <span class="o">.</span><span class="n">joins</span><span class="p">(</span><span class="ss">:category</span><span class="p">)</span>
-</span><span class='line'>              <span class="o">.</span><span class="n">includes</span><span class="p">(</span><span class="ss">:category</span><span class="p">)</span>
-</span><span class='line'>              <span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="s2">&quot;categories.name=&#39;News&#39;&quot;</span><span class="p">)</span>
-</span><span class='line'> <span class="vi">@grouped_posts</span> <span class="o">=</span> <span class="vi">@posts</span><span class="o">.</span><span class="n">group_by</span><span class="p">(</span><span class="ss">:category_name</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Solution</h2>
-
-<p>Remove the includes.</p>
-
-<figure class='code'><figcaption><span>example_controller.rb </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='rb'><span class='line'>  <span class="vi">@posts</span> <span class="o">=</span> <span class="no">Post</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">&#39;title, categories.name&#39;</span><span class="p">)</span>
-</span><span class='line'>               <span class="o">.</span><span class="n">joins</span><span class="p">(</span><span class="ss">:category</span><span class="p">)</span>
-</span><span class='line'>               <span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="s2">&quot;categories.name=&#39;News&#39;&quot;</span><span class="p">)</span>
-</span><span class='line'>  <span class="vi">@grouped_posts</span> <span class="o">=</span> <span class="vi">@posts</span><span class="o">.</span><span class="n">group_by</span><span class="p">(</span><span class="ss">:category_name</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Beware</h2>
-
-<p>Beware that this can also happen when using gems that use eager loading. Making it harder to notice that is the issue.</p>
-
-<p>Hope this saves you some time.</p>
 
 		
-		
+		<a href="/blog/2013/09/21/rails-eager-loading-in-activerecord-ignores-select-method/" class="more-link">Read more &rarr;</a>
 	</div>
 
 
@@ -167,7 +174,9 @@
 			Linux CheatSheet</a>
 	</h2>
 	<div class="entry-content">
-		<h2>Tar/gzip</h2>
+		<p>Helpful reminders to linux commands</p>
+
+<h2>Tar/gzip</h2>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>tar -czvf archive.tgz directory_to_archive</span></code></pre></td></tr></table></div></figure>
@@ -181,54 +190,11 @@
 </pre></td><td class='code'><pre><code class=''><span class='line'>find . -mtime +3 | xargs rm -Rf</span></code></pre></td></tr></table></div></figure>
 
 
-<h2>Move stuff</h2>
-
-<p>Move files that start with any character between a and m into a directory called dir</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>mv [a-m]*  dir</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>List stuff</h2>
-
-<p>List number of files in the current working directory.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ll | wc -l</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Transfer stuff</h2>
-
-<p>Copy local file to remote server.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>scp filename.txt username@servername.com:/path/to/my/remote/dir/filename.txt </span></code></pre></td></tr></table></div></figure>
-
-
-<p>Copy remote file to local file system.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>scp username@servername.com:/path/to/my/remote/dir/filename.txt ../local/filename.txt </span></code></pre></td></tr></table></div></figure>
-
-
-<h2>sysadmin</h2>
-
-<p>Look for a process with the keyword mysql</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ps -ef | grep mysql  </span></code></pre></td></tr></table></div></figure>
-
-
-<p>List iptable rules</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>iptables -L </span></code></pre></td></tr></table></div></figure>
-
 
 
 
 		
-		
+		<a href="/blog/2013/09/21/linux-cheatsheet/" class="more-link">Read more &rarr;</a>
 	</div>
 
 

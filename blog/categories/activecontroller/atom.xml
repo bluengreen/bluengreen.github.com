@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Activecontroller | povess notes]]></title>
+  <link href="http://bluengreen.github.io/blog/categories/activecontroller/atom.xml" rel="self"/>
+  <link href="http://bluengreen.github.io/"/>
+  <updated>2013-09-21T04:49:09-05:00</updated>
+  <id>http://bluengreen.github.io/</id>
+  <author>
+    <name><![CDATA[Phillip Novess]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Cleanup Rails controllers with base controllers]]></title>
+    <link href="http://bluengreen.github.io/blog/2013/09/21/cleanup-rails-controllers-with-base-controllers/"/>
+    <updated>2013-09-21T04:44:00-05:00</updated>
+    <id>http://bluengreen.github.io/blog/2013/09/21/cleanup-rails-controllers-with-base-controllers</id>
+    <content type="html"><![CDATA[<p>Controllers are just basic ruby classes that inherit from Activecontroller. Which means you can manage your controllers just as you would manage a ruby class. You can cleanup your controllers by moving supporting methods into a base controller and creating a namspace.</p>
+
+<!-- more -->
+
+]]></content>
+  </entry>
+  
+</feed>

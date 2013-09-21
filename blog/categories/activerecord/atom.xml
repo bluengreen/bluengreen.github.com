@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: activerecord | Povess]]></title>
+  <title><![CDATA[Category: activerecord | povess notes]]></title>
   <link href="http://bluengreen.github.io/blog/categories/activerecord/atom.xml" rel="self"/>
   <link href="http://bluengreen.github.io/"/>
-  <updated>2013-09-21T04:24:16-05:00</updated>
+  <updated>2013-09-21T04:49:09-05:00</updated>
   <id>http://bluengreen.github.io/</id>
   <author>
     <name><![CDATA[Phillip Novess]]></name>
@@ -20,47 +20,35 @@
     <id>http://bluengreen.github.io/blog/2013/09/21/rails-eager-loading-in-activerecord-ignores-select-method</id>
     <content type="html"><![CDATA[<p>If your trying to use the select method in Activercord, and you are finding that your select does not work, your issue may be with eager loading. It turns out that when you eager load with the includes method, the select method is completely ignored.</p>
 
+<!-- more -->
+
+
 <h2>This does not work</h2>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>example_controller.rb </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='rb'><span class='line'> <span class="vi">@posts</span> <span class="o">=</span> <span class="no">Post</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="o">&amp;</span><span class="n">lsquo</span><span class="p">;</span><span class="n">title</span><span class="p">,</span> <span class="n">categories</span><span class="o">.</span><span class="n">name</span> <span class="no">AS</span> <span class="n">category_name</span><span class="o">&amp;</span><span class="n">rsquo</span><span class="p">;)</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="sr">&lt;pre&gt;&lt;code&gt;          .joins(:category)</span>
-</span><span class='line'><span class="sr">          .includes(:category)</span>
-</span><span class='line'><span class="sr">          .where(&quot;categories.name=&#39;News&#39;&quot;)</span>
-</span><span class='line'><span class="sr">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;</span><span class="sr">/pre&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="sr">&lt;p&gt; @grouped_posts = @posts.group_by(:category_name)</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock example_controller.rb %}
+ @posts = Post.select(&lsquo;title, categories.name AS category_name&rsquo;)</p>
+
+<pre><code>          .joins(:category)
+          .includes(:category)
+          .where("categories.name='News'")
+</code></pre>
+
+<p> @grouped_posts = @posts.group_by(:category_name)
+{% endcodeblock %}</p>
 
 <h2>Solution</h2>
 
 <p>Remove the includes.</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>example_controller.rb </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='rb'><span class='line'>  <span class="vi">@posts</span> <span class="o">=</span> <span class="no">Post</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="o">&amp;</span><span class="n">lsquo</span><span class="p">;</span><span class="n">title</span><span class="p">,</span> <span class="n">categories</span><span class="o">.</span><span class="n">name</span><span class="o">&amp;</span><span class="n">rsquo</span><span class="p">;)</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="sr">&lt;pre&gt;&lt;code&gt;           .joins(:category)</span>
-</span><span class='line'><span class="sr">           .where(&quot;categories.name=&#39;News&#39;&quot;)</span>
-</span><span class='line'><span class="sr">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;</span><span class="sr">/pre&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="sr">&lt;p&gt;  @grouped_posts = @posts.group_by(:category_name)   &lt;br/</span><span class="o">&gt;</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock example_controller.rb %}
+  @posts = Post.select(&lsquo;title, categories.name&rsquo;)</p>
+
+<pre><code>           .joins(:category)
+           .where("categories.name='News'")
+</code></pre>
+
+<p>  @grouped_posts = @posts.group_by(:category_name)   <br/>
+{% endcodeblock %}</p>
 
 <h2>Beware</h2>
 

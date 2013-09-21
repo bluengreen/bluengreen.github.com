@@ -1,24 +1,85 @@
-<?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Povess]]></title>
-  <link href="http://bluengreen.github.io/atom.xml" rel="self"/>
-  <link href="http://bluengreen.github.io/"/>
-  <updated>2013-09-21T04:38:26-05:00</updated>
-  <id>http://bluengreen.github.io/</id>
-  <author>
-    <name><![CDATA[Phillip Novess]]></name>
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Mac OSX 10.8 Rails installation - Povess</title>
+	<meta name="author" content="Phillip Novess">
+
+	
+	<meta name="description" content="Dev workstation setup These instructions are for Mac OSX 10.8 Mountain Lion. Following these instructions will prepare your workstation for &hellip;">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Povess" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script async="true" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+</head>
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">Povess</a></h1>
+<nav id="main-nav"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="http://google.com/search" method="get">
+				<input type="text" name="q" results="0">
+				<input type="hidden" name="q" value="site:bluengreen.github.io">
+			</form>
+		</div>
+	</div>
+</nav>
+<nav id="sub-nav" class="alignright">
+	<div class="social">
+		
+		
+		<a class="google" href="https://plus.google.com/phillip@novess.com?rel=author" title="Google+">Google+</a>
+		
+		
+		
+		<a class="github" href="https://github.com/bluengreen" title="GitHub">GitHub</a>
+		
     
-  </author>
-  <generator uri="http://octopress.org/">Octopress</generator>
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+    
+	</div>
+	<form class="search" action="http://google.com/search" method="get">
+		<input class="alignright" type="text" name="q" results="0">
+		<input type="hidden" name="q" value="site:bluengreen.github.io">
+	</form>
+</nav>
 
-  
-  <entry>
-    <title type="html"><![CDATA[Mac OSX 10.8 Rails installation]]></title>
-    <link href="http://bluengreen.github.io/blog/2013/09/21/mac-osx-10-dot-8-rails-installation/"/>
-    <updated>2013-09-21T04:36:00-05:00</updated>
-    <id>http://bluengreen.github.io/blog/2013/09/21/mac-osx-10-dot-8-rails-installation</id>
-    <content type="html"><![CDATA[<h2>Dev workstation setup</h2>
+</header>
+	
+		
+	
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">Mac OSX 10.8 Rails Installation</h2>
+	<div class="entry-content"><h2>Dev workstation setup</h2>
 
 <p>These instructions are for Mac OSX 10.8 Mountain Lion. Following these instructions will prepare your workstation for developing in Ruby on Rails.</p>
 
@@ -408,131 +469,77 @@
 </span><span class='line'># http://www.randomactsofsentience.com/2013/05/gem-install-mysql2-missing-mysqlh-on-os.html
 </span><span class='line'>vi /usr/local/Cellar/mysql/5.6.12/bin/mysql_config</span></code></pre></td></tr></table></div></figure>
 
-]]></content>
-  </entry>
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
   
-  <entry>
-    <title type="html"><![CDATA[RAILS: Eager Loading in activerecord ignores select method]]></title>
-    <link href="http://bluengreen.github.io/blog/2013/09/21/rails-eager-loading-in-activerecord-ignores-select-method/"/>
-    <updated>2013-09-21T03:25:00-05:00</updated>
-    <id>http://bluengreen.github.io/blog/2013/09/21/rails-eager-loading-in-activerecord-ignores-select-method</id>
-    <content type="html"><![CDATA[<p>If your trying to use the select method in Activercord, and you are finding that your select does not work, your issue may be with eager loading. It turns out that when you eager load with the includes method, the select method is completely ignored.</p>
-
-<!-- more -->
 
 
-<h2>This does not work</h2>
-
-<figure class='code'><figcaption><span>example_controller.rb </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='rb'><span class='line'> <span class="vi">@posts</span> <span class="o">=</span> <span class="no">Post</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">&#39;title, categories.name AS category_name&#39;</span><span class="p">)</span>
-</span><span class='line'>              <span class="o">.</span><span class="n">joins</span><span class="p">(</span><span class="ss">:category</span><span class="p">)</span>
-</span><span class='line'>              <span class="o">.</span><span class="n">includes</span><span class="p">(</span><span class="ss">:category</span><span class="p">)</span>
-</span><span class='line'>              <span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="s2">&quot;categories.name=&#39;News&#39;&quot;</span><span class="p">)</span>
-</span><span class='line'> <span class="vi">@grouped_posts</span> <span class="o">=</span> <span class="vi">@posts</span><span class="o">.</span><span class="n">group_by</span><span class="p">(</span><span class="ss">:category_name</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
+<time datetime="2013-09-21T04:36:00-05:00" pubdate data-updated="true">Sep 21<span>st</span>, 2013</time></div>
+	<div class="tags">
 
 
-<h2>Solution</h2>
-
-<p>Remove the includes.</p>
-
-<figure class='code'><figcaption><span>example_controller.rb </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='rb'><span class='line'>  <span class="vi">@posts</span> <span class="o">=</span> <span class="no">Post</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">&#39;title, categories.name&#39;</span><span class="p">)</span>
-</span><span class='line'>               <span class="o">.</span><span class="n">joins</span><span class="p">(</span><span class="ss">:category</span><span class="p">)</span>
-</span><span class='line'>               <span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="s2">&quot;categories.name=&#39;News&#39;&quot;</span><span class="p">)</span>
-</span><span class='line'>  <span class="vi">@grouped_posts</span> <span class="o">=</span> <span class="vi">@posts</span><span class="o">.</span><span class="n">group_by</span><span class="p">(</span><span class="ss">:category_name</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
+	<a class='category' href='/blog/categories/mac/'>mac,</a>, <a class='category' href='/blog/categories/osx/'>osx,</a>, <a class='category' href='/blog/categories/rails/'>rails</a>
 
 
-<h2>Beware</h2>
+</div>
+	
+</div>
+</article>
 
-<p>Beware that this can also happen when using gems that use eager loading. Making it harder to notice that is the issue.</p>
-
-<p>Hope this saves you some time.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Linux CheatSheet]]></title>
-    <link href="http://bluengreen.github.io/blog/2013/09/21/linux-cheatsheet/"/>
-    <updated>2013-09-21T01:26:00-05:00</updated>
-    <id>http://bluengreen.github.io/blog/2013/09/21/linux-cheatsheet</id>
-    <content type="html"><![CDATA[<p>Helpful reminders to linux commands</p>
-
-<h2>Tar/gzip</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>tar -czvf archive.tgz directory_to_archive</span></code></pre></td></tr></table></div></figure>
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+		
+		
+		<a class="addthis_button_tweet"></a>
+		
+		
+		
+	</div>
+	
+</div>
 
 
-<h2>Find stuff</h2>
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2013
 
-<p>Find files older than 3 days old and remove them.</p>
+    Phillip Novess
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>find . -mtime +3 | xargs rm -Rf</span></code></pre></td></tr></table></div></figure>
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
 
 
 
 
-<!-- more -->
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-43804740-2']);
+		_gaq.push(['_trackPageview']);
 
-
-<h2>Move stuff</h2>
-
-<p>Move files that start with any character between a and m into a directory called dir</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>mv [a-m]*  dir</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>List stuff</h2>
-
-<p>List number of files in the current working directory.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ll | wc -l</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Transfer stuff</h2>
-
-<p>Copy local file to remote server.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>scp filename.txt username@servername.com:/path/to/my/remote/dir/filename.txt </span></code></pre></td></tr></table></div></figure>
-
-
-<p>Copy remote file to local file system.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>scp username@servername.com:/path/to/my/remote/dir/filename.txt ../local/filename.txt </span></code></pre></td></tr></table></div></figure>
-
-
-<h2>sysadmin</h2>
-
-<p>Look for a process with the keyword mysql</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ps -ef | grep mysql  </span></code></pre></td></tr></table></div></figure>
-
-
-<p>List iptable rules</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>iptables -L </span></code></pre></td></tr></table></div></figure>
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
 
 
 
-]]></content>
-  </entry>
-  
-</feed>
+</body>
+</html>
