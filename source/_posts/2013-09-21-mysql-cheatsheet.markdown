@@ -8,6 +8,8 @@ categories:
 
 My MySQL cheatsheet. Stuff I find myself needing but never remembering. :) 
 
+<!-- more -->
+
 ## Backup 
 
 
