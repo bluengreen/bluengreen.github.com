@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: mysql | povess notes]]></title>
+  <link href="http://bluengreen.github.io/blog/categories/mysql/atom.xml" rel="self"/>
+  <link href="http://bluengreen.github.io/"/>
+  <updated>2013-09-21T17:26:24-05:00</updated>
+  <id>http://bluengreen.github.io/</id>
+  <author>
+    <name><![CDATA[Phillip Novess]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[MySQL Setup replication]]></title>
+    <link href="http://bluengreen.github.io/blog/2013/09/21/mysql-setup-replication/"/>
+    <updated>2013-09-21T04:41:00-05:00</updated>
+    <id>http://bluengreen.github.io/blog/2013/09/21/mysql-setup-replication</id>
+    <content type="html"><![CDATA[<p>Basic steps for setting up mysql replication on rackspace CloudServers using a RHEL/Centos distribution of linux.</p>
+
+<h2>MASTER SERVER CONFIGURATION</h2>
+
+<p>Setup firewall rules on the master database server to accept incoming requests from the internal network card attached to your CloudServer instance. This is assuming that the slave database server is also a rackspace CloudServer and within the same region.</p>
+
+<p>``` bash</p>
+
+<h1>firewall rules for master</h1>
+
+<h1>allows the slave servers to connect to the master</h1>
+
+<h1>via rackspace servicenet</h1>
+
+<p>iptables -A INPUT -i eth1 -p tcp  &mdash;dport 3306 -m state &mdash;state NEW,ESTABLISHED -j ACCEPT
+iptables -A OUTPUT -o eth1 -p tcp &mdash;sport 3306 -m state &mdash;state ESTABLISHED -j ACCEPT
+service iptables save
+```</p>
+
+<p>Configure the master mysql database server. On a RHEL/Centos linux distro the mysql configuration file is in /etc. Below is an example configuration. The add the settings under the master setup section. The most important of these are the server-id and the log-bin. Every server needs a server-id. Mysql uses the log-bin to sync the slave servers.</p>
+
+<p>```</p>
+
+<h1>configure mysql conf file for replication</h1>
+
+<p>sudo vi /etc/my.cnf</p>
+
+<p>[mysqld]
+datadir=/var/lib/mysql
+socket=/var/lib/mysql/mysql.sock
+user=mysql</p>
+
+<h1>master setup</h1>
+
+<p>server-id=1
+log-bin=master-bin.log
+innodb_flush_log_at_trx_commit=1
+sync_binlog=1
+binlog_do_db=mydb</p>
+
+<h1>Disabling symbolic-links is recommended to prevent assorted security risks</h1>
+
+<p>symbolic-links=0
+[mysqld_safe]
+log-error=/var/log/mysqld.log
+pid-file=/var/run/mysqld/mysqld.pid
+```</p>
+
+<p>Next, we have to create a user for the slave servers to use to login and connect to the database server.</p>
+
+<p>```</p>
+
+<h1>start the mysql client</h1>
+
+<p>mysql -uroot -p'rootpassword'</p>
+
+<h1>create the replication user in mysql</h1>
+
+<blockquote><p>GRANT REPLICATION SLAVE ON <em>.</em> TO &lsquo;replication_user&rsquo;@&lsquo;10.1.1.2&rsquo; IDENTIFIED BY &lsquo;<your password>&rsquo;;
+FLUSH PRIVILEGES;
+```</p></blockquote>
+
+<p>Now show the status and get the current log and position of the master database server.<br/>
+If your are on a very active database server. You will have additional steps stopping locks and writes. However, for the purpose of this setup we will assume you dont have any activity yet.</p>
+
+<p>```</p>
+
+<h1>show status and grab log and position</h1>
+
+<blockquote><p>SHOW MASTER STATUS;
+```</p></blockquote>
+
+<h2>SLAVE SERVER CONFIGURATION</h2>
+
+<p>Now with the master setup and the log and position of the master database we can now configure our slave database server.</p>
+
+<p>```</p>
+
+<h6>###################################</h6>
+
+<h1>configure slave my.cnf</h1>
+
+<p>[mysqld]
+server-id=2
+master-host=10.1.1.1
+master-user=replication_user
+master-password=<your password>
+master-connect-retry=60
+replicate-do-db=mydb
+```</p>
+
+<p>Verify you can connect to the master server by using the mysql client on the slave server.</p>
+
+<p>```</p>
+
+<h6>#</h6>
+
+<h1>verify you can connect to the master</h1>
+
+<p>mysql -h 10.1.1.1 -u repl -p'<your replication user password>'</p>
+
+<blockquote><p>exit
+```
+If that was successful we can login to the local mysql database server on the slave server and start the replication. If you weren&rsquo;t able to login to the master database server from the slave server double check your firewall rules and user settings in the master database server.</p></blockquote>
+
+<p>```
+mysql -uroot -p'rootpassword'</p>
+
+<h1>change master to start replication</h1>
+
+<blockquote><p>SLAVE STOP;
+CHANGE MASTER TO MASTER_HOST=&lsquo;10.1.1.1&rsquo;,</p>
+
+<pre><code>            MASTER_USER='replication_user', 
+            MASTER_PASSWORD='&lt;your password&gt;', 
+            MASTER_LOG_FILE='master-bin.000003', 
+            MASTER_LOG_POS=106;
+</code></pre>
+
+<p>START SLAVE;
+SHOW SLAVE STATUS\G;
+```</p></blockquote>
+
+<p>If all is successful. You should see a screen like this.</p>
+
+<p>```
+SHOW SLAVE STATUS\G;
+<strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><em> 1. row </em></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></p>
+
+<pre><code>         Slave_IO_State: Waiting for master to send event
+            Master_Host: 10.176.41.72
+            Master_User: repl
+            Master_Port: 3306
+          Connect_Retry: 60
+        Master_Log_File: mysql-bin.000003
+    Read_Master_Log_Pos: 314
+         Relay_Log_File: mysqld-relay-bin.000003
+          Relay_Log_Pos: 235
+  Relay_Master_Log_File: mysql-bin.000003
+       Slave_IO_Running: Yes
+      Slave_SQL_Running: Yes
+        Replicate_Do_DB: 
+    Replicate_Ignore_DB: 
+     Replicate_Do_Table: 
+ Replicate_Ignore_Table: 
+Replicate_Wild_Do_Table: 
+</code></pre>
+
+<p>Replicate_Wild_Ignore_Table:</p>
+
+<pre><code>             Last_Errno: 0
+             Last_Error: 
+           Skip_Counter: 0
+    Exec_Master_Log_Pos: 314
+        Relay_Log_Space: 235
+        Until_Condition: None
+         Until_Log_File: 
+          Until_Log_Pos: 0
+     Master_SSL_Allowed: No
+     Master_SSL_CA_File: 
+     Master_SSL_CA_Path: 
+        Master_SSL_Cert: 
+      Master_SSL_Cipher: 
+         Master_SSL_Key: 
+  Seconds_Behind_Master: 0
+</code></pre>
+
+<p>```</p>
+]]></content>
+  </entry>
+  
+</feed>

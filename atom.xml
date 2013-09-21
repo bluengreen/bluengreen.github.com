@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Povess]]></title>
+  <title><![CDATA[povess notes]]></title>
   <link href="http://bluengreen.github.io/atom.xml" rel="self"/>
   <link href="http://bluengreen.github.io/"/>
-  <updated>2013-09-21T04:38:26-05:00</updated>
+  <updated>2013-09-21T17:26:24-05:00</updated>
   <id>http://bluengreen.github.io/</id>
   <author>
     <name><![CDATA[Phillip Novess]]></name>
@@ -12,6 +12,373 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[DRY up your controllers with base controllers]]></title>
+    <link href="http://bluengreen.github.io/blog/2013/09/21/cleanup-rails-controllers-with-base-controllers/"/>
+    <updated>2013-09-21T04:44:00-05:00</updated>
+    <id>http://bluengreen.github.io/blog/2013/09/21/cleanup-rails-controllers-with-base-controllers</id>
+    <content type="html"><![CDATA[<p>Controllers are just basic ruby classes that inherit from ActionController::Base. This means you can manage your controllers just as you would manage a ruby class. DRY up your controllers by moving supporting methods into a base controller.</p>
+
+<!-- more -->
+
+
+<p>Obviously, we can move methods into the Application controller. But we may not need these methods across the whole application. A perfect example of this is when we are creating a site that has public and private sections of the site.</p>
+
+<p>Example 1:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ApplicationController</span> <span class="o">&lt;</span> <span class="ss">ActionController</span><span class="p">:</span><span class="ss">:Base</span>
+</span><span class='line'>  <span class="n">before_filter</span> <span class="ss">:authenticate_user!</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># other methods </span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>The problem with this is we would have to do a skip_before_filter on every controller we want public. Or conversely we would have to call the before_filter on all private pages.</p>
+
+<p>I prefer to create a namespace for the private sections by creating a directory in Rails root app/controllers. Let&rsquo;s call this directory admin. Then create a new controller within the admin directory for users.</p>
+
+<p>Example 2:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Admin</span><span class="o">::</span><span class="no">UsersController</span> <span class="o">&lt;</span> <span class="ss">ActionController</span><span class="p">:</span><span class="ss">:Base</span>
+</span><span class='line'>  <span class="n">before_filter</span> <span class="ss">:authenticate_user!</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># other methods </span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now we can access the protected controller by going to <a href="http://localhost:3000/admin/users">http://localhost:3000/admin/users</a> But now we still have to apply a before_filter on any added controllers within admin. I think a better way to handle this is to create a base controller within the admin directory that the admin controllers can inherit from.</p>
+
+<p>Example 3:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Admin</span><span class="o">::</span><span class="no">BaseController</span> <span class="o">&lt;</span> <span class="ss">ActionController</span><span class="p">:</span><span class="ss">:Base</span>
+</span><span class='line'>  <span class="n">before_filter</span> <span class="ss">:authenticate_user!</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># other methods </span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">Admin</span><span class="o">::</span><span class="no">UsersController</span> <span class="o">&lt;</span> <span class="ss">Admin</span><span class="p">:</span><span class="ss">:BaseController</span>
+</span><span class='line'>  <span class="c1"># other methods </span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This has the added benefit of being able to add any methods that can be used across the admin in a shared controller.</p>
+
+<p>However, there is no reason we must limit ourselves to only the admin. I find many times I have methods I need to use across specific controllers. This is a perfect opportunity to DRY up those controllers, by namespacing and creating a base controller.</p>
+
+<p>Example 4:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Reports</span><span class="o">::</span><span class="no">BaseController</span> <span class="o">&lt;</span> <span class="ss">ActionController</span><span class="p">:</span><span class="ss">:Base</span>
+</span><span class='line'>  <span class="c1"># methods for all reports </span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">Reports</span><span class="o">::</span><span class="no">StandardController</span> <span class="o">&lt;</span> <span class="ss">Reports</span><span class="p">:</span><span class="ss">:BaseController</span>
+</span><span class='line'>  <span class="c1"># other methods </span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">Reports</span><span class="o">::</span><span class="no">CustomController</span> <span class="o">&lt;</span> <span class="ss">Reports</span><span class="p">:</span><span class="ss">:BaseController</span>
+</span><span class='line'>  <span class="c1"># other methods </span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>This is nothing groundbreaking or revolutionary. But like many things in ruby and Rails, simple and basic saves the day.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[MySQL Setup replication]]></title>
+    <link href="http://bluengreen.github.io/blog/2013/09/21/mysql-setup-replication/"/>
+    <updated>2013-09-21T04:41:00-05:00</updated>
+    <id>http://bluengreen.github.io/blog/2013/09/21/mysql-setup-replication</id>
+    <content type="html"><![CDATA[<p>Basic steps for setting up mysql replication on rackspace CloudServers using a RHEL/Centos distribution of linux.</p>
+
+<h2>MASTER SERVER CONFIGURATION</h2>
+
+<p>Setup firewall rules on the master database server to accept incoming requests from the internal network card attached to your CloudServer instance. This is assuming that the slave database server is also a rackspace CloudServer and within the same region.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># firewall rules for master</span>
+</span><span class='line'><span class="c"># allows the slave servers to connect to the master </span>
+</span><span class='line'><span class="c"># via rackspace servicenet</span>
+</span><span class='line'>iptables -A INPUT -i eth1 -p tcp  --dport 3306 -m state --state NEW,ESTABLISHED -j ACCEPT
+</span><span class='line'>iptables -A OUTPUT -o eth1 -p tcp --sport 3306 -m state --state ESTABLISHED -j ACCEPT
+</span><span class='line'>service iptables save
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Configure the master mysql database server. On a RHEL/Centos linux distro the mysql configuration file is in /etc. Below is an example configuration. The add the settings under the master setup section. The most important of these are the server-id and the log-bin. Every server needs a server-id. Mysql uses the log-bin to sync the slave servers.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># configure mysql conf file for replication</span>
+</span><span class='line'>sudo vi /etc/my.cnf
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="o">[</span>mysqld<span class="o">]</span>
+</span><span class='line'><span class="nv">datadir</span><span class="o">=</span>/var/lib/mysql
+</span><span class='line'><span class="nv">socket</span><span class="o">=</span>/var/lib/mysql/mysql.sock
+</span><span class='line'><span class="nv">user</span><span class="o">=</span>mysql
+</span><span class='line'>
+</span><span class='line'><span class="c"># master setup</span>
+</span><span class='line'>server-id<span class="o">=</span>1
+</span><span class='line'>log-bin<span class="o">=</span>master-bin.log
+</span><span class='line'><span class="nv">innodb_flush_log_at_trx_commit</span><span class="o">=</span>1
+</span><span class='line'><span class="nv">sync_binlog</span><span class="o">=</span>1
+</span><span class='line'><span class="nv">binlog_do_db</span><span class="o">=</span>mydb
+</span><span class='line'>
+</span><span class='line'><span class="c"># Disabling symbolic-links is recommended to prevent assorted security risks</span>
+</span><span class='line'>symbolic-links<span class="o">=</span>0
+</span><span class='line'><span class="o">[</span>mysqld_safe<span class="o">]</span>
+</span><span class='line'>log-error<span class="o">=</span>/var/log/mysqld.log
+</span><span class='line'>pid-file<span class="o">=</span>/var/run/mysqld/mysqld.pid
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Next, we have to create a user for the slave servers to use to login and connect to the database server.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># start the mysql client</span>
+</span><span class='line'>mysql -uroot -p<span class="s1">&#39;rootpassword&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># create the replication user in mysql </span>
+</span><span class='line'>&gt; GRANT REPLICATION SLAVE ON *.* TO <span class="s1">&#39;replication_user&#39;</span>@<span class="s1">&#39;10.1.1.2&#39;</span> IDENTIFIED BY <span class="s1">&#39;&lt;your password&gt;&#39;</span>;
+</span><span class='line'>&gt; FLUSH PRIVILEGES;
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now show the status and get the current log and position of the master database server.<br/>
+If your are on a very active database server. You will have additional steps stopping locks and writes. However, for the purpose of this setup we will assume you dont have any activity yet.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># show status and grab log and position</span>
+</span><span class='line'>&gt; SHOW MASTER STATUS;
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>SLAVE SERVER CONFIGURATION</h2>
+
+<p>Now with the master setup and the log and position of the master database we can now configure our slave database server.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">######################################### </span>
+</span><span class='line'><span class="c"># configure slave my.cnf </span>
+</span><span class='line'>
+</span><span class='line'><span class="o">[</span>mysqld<span class="o">]</span>
+</span><span class='line'>server-id<span class="o">=</span>2
+</span><span class='line'>master-host<span class="o">=</span>10.1.1.1
+</span><span class='line'>master-user<span class="o">=</span>replication_user
+</span><span class='line'>master-password<span class="o">=</span>&lt;your password&gt;
+</span><span class='line'>master-connect-retry<span class="o">=</span>60
+</span><span class='line'>replicate-do-db<span class="o">=</span>mydb
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Verify you can connect to the master server by using the mysql client on the slave server.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#########################################</span>
+</span><span class='line'><span class="c"># verify you can connect to the master</span>
+</span><span class='line'>
+</span><span class='line'>mysql -h 10.1.1.1 -u repl -p<span class="s1">&#39;&lt;your replication user password&gt;&#39;</span>
+</span><span class='line'>&gt; <span class="nb">exit</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If that was successful we can login to the local mysql database server on the slave server and start the replication. If you weren&rsquo;t able to login to the master database server from the slave server double check your firewall rules and user settings in the master database server.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>mysql -uroot -p<span class="s1">&#39;rootpassword&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># change master to start replication </span>
+</span><span class='line'>&gt; SLAVE STOP;
+</span><span class='line'>&gt; CHANGE MASTER TO <span class="nv">MASTER_HOST</span><span class="o">=</span><span class="s1">&#39;10.1.1.1&#39;</span>,
+</span><span class='line'>&gt;                 <span class="nv">MASTER_USER</span><span class="o">=</span><span class="s1">&#39;replication_user&#39;</span>,
+</span><span class='line'>&gt;                 <span class="nv">MASTER_PASSWORD</span><span class="o">=</span><span class="s1">&#39;&lt;your password&gt;&#39;</span>,
+</span><span class='line'>&gt;                 <span class="nv">MASTER_LOG_FILE</span><span class="o">=</span><span class="s1">&#39;master-bin.000003&#39;</span>,
+</span><span class='line'>&gt;                 <span class="nv">MASTER_LOG_POS</span><span class="o">=</span>106;
+</span><span class='line'>&gt;START SLAVE;
+</span><span class='line'>&gt;SHOW SLAVE STATUS<span class="se">\G</span>;
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If all is successful. You should see a screen like this.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>SHOW SLAVE STATUS<span class="se">\G</span>;
+</span><span class='line'>*************************** 1. row ***************************
+</span><span class='line'>             Slave_IO_State: Waiting <span class="k">for </span>master to send event
+</span><span class='line'>                Master_Host: 10.176.41.72
+</span><span class='line'>                Master_User: repl
+</span><span class='line'>                Master_Port: 3306
+</span><span class='line'>              Connect_Retry: 60
+</span><span class='line'>            Master_Log_File: mysql-bin.000003
+</span><span class='line'>        Read_Master_Log_Pos: 314
+</span><span class='line'>             Relay_Log_File: mysqld-relay-bin.000003
+</span><span class='line'>              Relay_Log_Pos: 235
+</span><span class='line'>      Relay_Master_Log_File: mysql-bin.000003
+</span><span class='line'>           Slave_IO_Running: Yes
+</span><span class='line'>          Slave_SQL_Running: Yes
+</span><span class='line'>            Replicate_Do_DB:
+</span><span class='line'>        Replicate_Ignore_DB:
+</span><span class='line'>         Replicate_Do_Table:
+</span><span class='line'>     Replicate_Ignore_Table:
+</span><span class='line'>    Replicate_Wild_Do_Table:
+</span><span class='line'>Replicate_Wild_Ignore_Table:
+</span><span class='line'>                 Last_Errno: 0
+</span><span class='line'>                 Last_Error:
+</span><span class='line'>               Skip_Counter: 0
+</span><span class='line'>        Exec_Master_Log_Pos: 314
+</span><span class='line'>            Relay_Log_Space: 235
+</span><span class='line'>            Until_Condition: None
+</span><span class='line'>             Until_Log_File:
+</span><span class='line'>              Until_Log_Pos: 0
+</span><span class='line'>         Master_SSL_Allowed: No
+</span><span class='line'>         Master_SSL_CA_File:
+</span><span class='line'>         Master_SSL_CA_Path:
+</span><span class='line'>            Master_SSL_Cert:
+</span><span class='line'>          Master_SSL_Cipher:
+</span><span class='line'>             Master_SSL_Key:
+</span><span class='line'>      Seconds_Behind_Master: 0
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[MySQL Cheatsheet]]></title>
+    <link href="http://bluengreen.github.io/blog/2013/09/21/mysql-cheatsheet/"/>
+    <updated>2013-09-21T04:41:00-05:00</updated>
+    <id>http://bluengreen.github.io/blog/2013/09/21/mysql-cheatsheet</id>
+    <content type="html"><![CDATA[
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Mac OSX 10.8 Rails installation]]></title>
@@ -217,7 +584,9 @@
 <span class='line-number'>188</span>
 <span class='line-number'>189</span>
 <span class='line-number'>190</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'> Mac OS X 10.8 installation steps
+<span class='line-number'>191</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>
+</span><span class='line'> Mac OS X 10.8 installation steps
 </span><span class='line'>
 </span><span class='line'>#====================================================================================
 </span><span class='line'># ** many commands require sudo but many do not
@@ -285,7 +654,7 @@
 </span><span class='line'># create new github account for user @ http://github.com
 </span><span class='line'>
 </span><span class='line'># create keys for new computer / user
-</span><span class='line'> ssh-keygen -t rsa -C "&lt;your_email_username&gt;@lindigital.com"
+</span><span class='line'> ssh-keygen -t rsa -C "&lt;your_email&gt;"
 </span><span class='line'> pbcopy &lt; ~/.ssh/id_rsa.pub
 </span><span class='line'>
 </span><span class='line'># copy new keys to new user account @ http://github.com

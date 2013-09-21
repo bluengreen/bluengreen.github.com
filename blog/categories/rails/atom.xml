@@ -4,7 +4,7 @@
   <title><![CDATA[Category: rails | povess notes]]></title>
   <link href="http://bluengreen.github.io/blog/categories/rails/atom.xml" rel="self"/>
   <link href="http://bluengreen.github.io/"/>
-  <updated>2013-09-21T09:52:50-05:00</updated>
+  <updated>2013-09-21T17:26:24-05:00</updated>
   <id>http://bluengreen.github.io/</id>
   <author>
     <name><![CDATA[Phillip Novess]]></name>
@@ -25,7 +25,7 @@
 <!-- more -->
 
 
-<p>{% codeblock ex.sh %}</p>
+<p>```</p>
 
 <p> Mac OS X 10.8 installation steps</p>
 
