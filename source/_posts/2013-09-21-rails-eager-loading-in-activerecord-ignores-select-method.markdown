@@ -3,7 +3,7 @@ layout: post
 title: "RAILS: Eager Loading in activerecord ignores select method"
 date: 2013-09-21 03:25
 comments: true
-categories: rails, activerecord
+categories: [rails, activerecord]
 ---
 
 If your trying to use the select method in Activercord, and you are finding that your select does not work, your issue may be with eager loading. It turns out that when you eager load with the includes method, the select method is completely ignored. 

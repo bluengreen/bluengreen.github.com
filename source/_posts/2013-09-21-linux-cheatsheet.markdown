@@ -3,7 +3,7 @@ layout: post
 title: "Linux CheatSheet"
 date: 2013-09-21 01:26
 comments: true
-categories: 
+categories: [linux]
 ---
 
 Helpful reminders to linux commands

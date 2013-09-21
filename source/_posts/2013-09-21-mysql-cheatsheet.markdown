@@ -3,7 +3,7 @@ layout: post
 title: "MySQL Cheatsheet"
 date: 2013-09-21 04:41
 comments: true
-categories: 
+categories: [mysql, linux]
 ---
 
 My MySQL cheatsheet. Stuff I find myself needing but never remembering. :) 

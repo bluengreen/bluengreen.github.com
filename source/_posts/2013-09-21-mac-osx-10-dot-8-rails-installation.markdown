@@ -3,7 +3,7 @@ layout: post
 title: "Mac OSX 10.8 Rails installation"
 date: 2013-09-21 04:36
 comments: true
-categories: mac, osx, rails
+categories: [mac, osx, rails]
 ---
 
 ## Dev workstation setup

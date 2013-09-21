@@ -3,7 +3,7 @@ layout: post
 title: "DRY up your controllers with base controllers"
 date: 2013-09-21 04:44
 comments: true
-categories: rails, Activecontroller
+categories: [rails, Activecontroller]
 ---
 
 Controllers are just basic ruby classes that inherit from ActionController::Base. This means you can manage your controllers just as you would manage a ruby class. DRY up your controllers by moving supporting methods into a base controller.
