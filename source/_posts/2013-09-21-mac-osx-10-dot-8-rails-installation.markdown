@@ -12,7 +12,7 @@ These instructions are for Mac OSX 10.8 Mountain Lion. Following these instructi
 
 <!-- more -->
 
-{% codeblock ex.sh %}
+```
 
  Mac OS X 10.8 installation steps
 
