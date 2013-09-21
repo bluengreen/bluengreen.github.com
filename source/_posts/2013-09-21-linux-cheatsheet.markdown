@@ -8,6 +8,7 @@ categories:
 
 Helpful reminders to linux commands
 
+<!-- more -->
 
 ## Tar/gzip 
 
@@ -22,8 +23,6 @@ Find files older than 3 days old and remove them.
 ```
 find . -mtime +3 | xargs rm -Rf
 ```
-
-<!-- more -->
 
 ## Move stuff
 
