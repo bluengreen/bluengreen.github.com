@@ -7,7 +7,9 @@ categories: [mysql, linux]
 ---
 
 
-Basic steps for setting up mysql replication on rackspace CloudServers using a RHEL/Centos distribution of linux.
+Here are the basic steps for setting up mysql replication on rackspace CloudServers using a RHEL/Centos distribution of linux. 
+
+<!-- more -->
 
 ## MASTER SERVER CONFIGURATION
 
@@ -153,5 +155,12 @@ Replicate_Wild_Ignore_Table:
              Master_SSL_Key: 
       Seconds_Behind_Master: 0
 ```
+
+## Reference 
+
+[Rackspace Knowledgebase](http://www.rackspace.com/knowledge_center/article/mysql-replication-masterslave)
+
+[MySQL Documentation](http://dev.mysql.com/doc/refman/5.6/en/replication-howto.html)
+
 
 
