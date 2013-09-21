@@ -4,7 +4,7 @@
   <title><![CDATA[Category: linux | povess notes]]></title>
   <link href="http://bluengreen.github.io/blog/categories/linux/atom.xml" rel="self"/>
   <link href="http://bluengreen.github.io/"/>
-  <updated>2013-09-21T17:26:24-05:00</updated>
+  <updated>2013-09-21T17:50:13-05:00</updated>
   <id>http://bluengreen.github.io/</id>
   <author>
     <name><![CDATA[Phillip Novess]]></name>
@@ -18,7 +18,10 @@
     <link href="http://bluengreen.github.io/blog/2013/09/21/mysql-setup-replication/"/>
     <updated>2013-09-21T04:41:00-05:00</updated>
     <id>http://bluengreen.github.io/blog/2013/09/21/mysql-setup-replication</id>
-    <content type="html"><![CDATA[<p>Basic steps for setting up mysql replication on rackspace CloudServers using a RHEL/Centos distribution of linux.</p>
+    <content type="html"><![CDATA[<p>Here are the basic steps for setting up mysql replication on rackspace CloudServers using a RHEL/Centos distribution of linux.</p>
+
+<!-- more -->
+
 
 <h2>MASTER SERVER CONFIGURATION</h2>
 
@@ -186,6 +189,12 @@ Replicate_Wild_Do_Table:
 </code></pre>
 
 <p>```</p>
+
+<h2>Reference</h2>
+
+<p><a href="http://www.rackspace.com/knowledge_center/article/mysql-replication-masterslave">Rackspace Knowledgebase</a></p>
+
+<p><a href="http://dev.mysql.com/doc/refman/5.6/en/replication-howto.html">MySQL Documentation</a></p>
 ]]></content>
   </entry>
   
