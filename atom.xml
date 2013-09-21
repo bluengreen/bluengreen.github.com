@@ -4,7 +4,7 @@
   <title><![CDATA[povess notes]]></title>
   <link href="http://bluengreen.github.io/atom.xml" rel="self"/>
   <link href="http://bluengreen.github.io/"/>
-  <updated>2013-09-21T17:50:13-05:00</updated>
+  <updated>2013-09-21T17:52:02-05:00</updated>
   <id>http://bluengreen.github.io/</id>
   <author>
     <name><![CDATA[Phillip Novess]]></name>
@@ -384,6 +384,9 @@ If your are on a very active database server. You will have additional steps sto
     <updated>2013-09-21T04:41:00-05:00</updated>
     <id>http://bluengreen.github.io/blog/2013/09/21/mysql-cheatsheet</id>
     <content type="html"><![CDATA[<p>My MySQL cheatsheet. Stuff I find myself needing but never remembering. :)</p>
+
+<!-- more -->
+
 
 <h2>Backup</h2>
 

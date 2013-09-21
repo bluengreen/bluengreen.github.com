@@ -174,83 +174,9 @@
 	<div class="entry-content">
 		<p>My MySQL cheatsheet. Stuff I find myself needing but never remembering. :)</p>
 
-<h2>Backup</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># one database
-</span><span class='line'>$ mysqldump -h localhost -u root -pmypassword databasename &gt; dumpfile.sql</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># all databases 
-</span><span class='line'>$ mysqldump -h localhost -u root -pmypassword --all-databases &gt; dumpfile.sql
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Restore</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># restore one database
-</span><span class='line'>$ mysql -u root -pmypassword databasename &lt; dumpfile.sql</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># restore all databases
-</span><span class='line'>$ mysql -u root -pmypassword &lt; dumpfile.sql</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Set admin password</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ mysqladmin -u root password newpassword</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Change user password</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ mysql -u root -p
-</span><span class='line'>mysql&gt; SET PASSWORD FOR 'user'@'hostname'=PASSWORD('passwordhere');
-</span><span class='line'>mysql&gt; FLUSH PRIVILEGES;</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Recover root password</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ mysql.server stop
-</span><span class='line'>$ mysqld_safe --skip-grant-tables &
-</span><span class='line'>$ mysql -u root
-</span><span class='line'>mysql&gt; USE mysql;
-</span><span class='line'>mysql&gt; UPDATE USER SET password=PASSWORD("newrootpassword") WHERE User='root';
-</span><span class='line'>mysql&gt; FLUSH PRIVILEGES;
-</span><span class='line'>mysql&gt; exit 
-</span><span class='line'># mysql.server stop
-</span><span class='line'># mysql.server start</span></code></pre></td></tr></table></div></figure>
-
-
-<p><a href="http://dev.mysql.com/doc/refman/5.6/en/">MySQL Documentation</a></p>
-
-<p><a href="http://dev.mysql.com/doc/refman/5.6/en/mysqldump.html">MySQL mysqldump reference</a></p>
 
 		
-		
+		<a href="/blog/2013/09/21/mysql-cheatsheet/" class="more-link">Read more &rarr;</a>
 	</div>
 
 
