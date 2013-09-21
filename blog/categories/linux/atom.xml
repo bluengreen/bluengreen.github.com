@@ -4,7 +4,7 @@
   <title><![CDATA[Category: linux | povess notes]]></title>
   <link href="http://bluengreen.github.io/blog/categories/linux/atom.xml" rel="self"/>
   <link href="http://bluengreen.github.io/"/>
-  <updated>2013-09-21T17:53:08-05:00</updated>
+  <updated>2013-09-21T18:00:39-05:00</updated>
   <id>http://bluengreen.github.io/</id>
   <author>
     <name><![CDATA[Phillip Novess]]></name>
@@ -195,6 +195,154 @@ Replicate_Wild_Do_Table:
 <p><a href="http://www.rackspace.com/knowledge_center/article/mysql-replication-masterslave">Rackspace Knowledgebase</a></p>
 
 <p><a href="http://dev.mysql.com/doc/refman/5.6/en/replication-howto.html">MySQL Documentation</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[MySQL Cheatsheet]]></title>
+    <link href="http://bluengreen.github.io/blog/2013/09/21/mysql-cheatsheet/"/>
+    <updated>2013-09-21T04:41:00-05:00</updated>
+    <id>http://bluengreen.github.io/blog/2013/09/21/mysql-cheatsheet</id>
+    <content type="html"><![CDATA[<p>My MySQL cheatsheet. Stuff I find myself needing but never remembering. :)</p>
+
+<!-- more -->
+
+
+<h2>Backup</h2>
+
+<p>```</p>
+
+<h1>one database</h1>
+
+<p>$ mysqldump -h localhost -u root -pmypassword databasename > dumpfile.sql
+```</p>
+
+<p>```</p>
+
+<h1>all databases</h1>
+
+<p>$ mysqldump -h localhost -u root -pmypassword &mdash;all-databases > dumpfile.sql</p>
+
+<p>```</p>
+
+<h2>Restore</h2>
+
+<p>```</p>
+
+<h1>restore one database</h1>
+
+<p>$ mysql -u root -pmypassword databasename &lt; dumpfile.sql
+```</p>
+
+<p>```</p>
+
+<h1>restore all databases</h1>
+
+<p>$ mysql -u root -pmypassword &lt; dumpfile.sql
+```</p>
+
+<h2>Set admin password</h2>
+
+<p><code>
+$ mysqladmin -u root password newpassword
+</code></p>
+
+<h2>Change user password</h2>
+
+<p><code>
+$ mysql -u root -p
+mysql&gt; SET PASSWORD FOR 'user'@'hostname'=PASSWORD('passwordhere');
+mysql&gt; FLUSH PRIVILEGES;
+</code></p>
+
+<h2>Recover root password</h2>
+
+<p>```
+$ mysql.server stop
+$ mysqld_safe &mdash;skip-grant-tables &amp;
+$ mysql -u root
+mysql> USE mysql;
+mysql> UPDATE USER SET password=PASSWORD(&ldquo;newrootpassword&rdquo;) WHERE User=&lsquo;root&rsquo;;
+mysql> FLUSH PRIVILEGES;
+mysql> exit</p>
+
+<h1>mysql.server stop</h1>
+
+<h1>mysql.server start</h1>
+
+<p>```</p>
+
+<p><a href="http://dev.mysql.com/doc/refman/5.6/en/">MySQL Documentation</a></p>
+
+<p><a href="http://dev.mysql.com/doc/refman/5.6/en/mysqldump.html">MySQL mysqldump reference</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Linux CheatSheet]]></title>
+    <link href="http://bluengreen.github.io/blog/2013/09/21/linux-cheatsheet/"/>
+    <updated>2013-09-21T01:26:00-05:00</updated>
+    <id>http://bluengreen.github.io/blog/2013/09/21/linux-cheatsheet</id>
+    <content type="html"><![CDATA[<p>Helpful reminders to linux commands</p>
+
+<!-- more -->
+
+
+<h2>Tar/gzip</h2>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>tar -czvf archive.tgz directory_to_archive</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2>Find stuff</h2>
+
+<p>Find files older than 3 days old and remove them.</p>
+
+<p><code>
+find . -mtime +3 | xargs rm -Rf
+</code></p>
+
+<h2>Move stuff</h2>
+
+<p>Move files that start with any character between a and m into a directory called dir</p>
+
+<p><code>
+mv [a-m]*  dir
+</code></p>
+
+<h2>List stuff</h2>
+
+<p>List number of files in the current working directory.</p>
+
+<p><code>
+ll | wc -l
+</code></p>
+
+<h2>Transfer stuff</h2>
+
+<p>Copy local file to remote server.</p>
+
+<p><code>
+scp filename.txt username@servername.com:/path/to/my/remote/dir/filename.txt
+</code></p>
+
+<p>Copy remote file to local file system.
+<code>
+scp username@servername.com:/path/to/my/remote/dir/filename.txt ../local/filename.txt
+</code></p>
+
+<h2>sysadmin</h2>
+
+<p>Look for a process with the keyword mysql</p>
+
+<p><code>
+ps -ef | grep mysql  
+</code></p>
+
+<p>List iptable rules</p>
+
+<p><code>
+iptables -L
+</code></p>
 ]]></content>
   </entry>
   

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: rails | povess notes]]></title>
   <link href="http://bluengreen.github.io/blog/categories/rails/atom.xml" rel="self"/>
   <link href="http://bluengreen.github.io/"/>
-  <updated>2013-09-21T17:53:08-05:00</updated>
+  <updated>2013-09-21T18:00:39-05:00</updated>
   <id>http://bluengreen.github.io/</id>
   <author>
     <name><![CDATA[Phillip Novess]]></name>
@@ -12,6 +12,82 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[DRY up your controllers with base controllers]]></title>
+    <link href="http://bluengreen.github.io/blog/2013/09/21/cleanup-rails-controllers-with-base-controllers/"/>
+    <updated>2013-09-21T04:44:00-05:00</updated>
+    <id>http://bluengreen.github.io/blog/2013/09/21/cleanup-rails-controllers-with-base-controllers</id>
+    <content type="html"><![CDATA[<p>Controllers are just basic ruby classes that inherit from ActionController::Base. This means you can manage your controllers just as you would manage a ruby class. DRY up your controllers by moving supporting methods into a base controller.</p>
+
+<!-- more -->
+
+
+<p>Obviously, we can move methods into the Application controller. But we may not need these methods across the whole application. A perfect example of this is when we are creating a site that has public and private sections of the site.</p>
+
+<p>Example 1:</p>
+
+<p>``` ruby
+class ApplicationController &lt; ActionController::Base
+  before_filter :authenticate_user!</p>
+
+<p>  # other methods
+end
+```</p>
+
+<p>The problem with this is we would have to do a skip_before_filter on every controller we want public. Or conversely we would have to call the before_filter on all private pages.</p>
+
+<p>I prefer to create a namespace for the private sections by creating a directory in Rails root app/controllers. Let&rsquo;s call this directory admin. Then create a new controller within the admin directory for users.</p>
+
+<p>Example 2:</p>
+
+<p>``` ruby
+class Admin::UsersController &lt; ActionController::Base
+  before_filter :authenticate_user!</p>
+
+<p>  # other methods
+end
+```</p>
+
+<p>Now we can access the protected controller by going to <a href="http://localhost:3000/admin/users">http://localhost:3000/admin/users</a> But now we still have to apply a before_filter on any added controllers within admin. I think a better way to handle this is to create a base controller within the admin directory that the admin controllers can inherit from.</p>
+
+<p>Example 3:</p>
+
+<p>``` ruby
+class Admin::BaseController &lt; ActionController::Base
+  before_filter :authenticate_user!</p>
+
+<p>  # other methods
+end</p>
+
+<p>class Admin::UsersController &lt; Admin::BaseController
+  # other methods
+end
+```</p>
+
+<p>This has the added benefit of being able to add any methods that can be used across the admin in a shared controller.</p>
+
+<p>However, there is no reason we must limit ourselves to only the admin. I find many times I have methods I need to use across specific controllers. This is a perfect opportunity to DRY up those controllers, by namespacing and creating a base controller.</p>
+
+<p>Example 4:</p>
+
+<p>``` ruby
+class Reports::BaseController &lt; ActionController::Base
+  # methods for all reports
+end</p>
+
+<p>class Reports::StandardController &lt; Reports::BaseController
+  # other methods
+end</p>
+
+<p>class Reports::CustomController &lt; Reports::BaseController
+  # other methods
+end
+```</p>
+
+<p>This is nothing groundbreaking or revolutionary. But like many things in ruby and Rails, simple and basic saves the day.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Mac OSX 10.8 Rails installation]]></title>
@@ -261,6 +337,66 @@ gem install mysql2</p>
 
 <p>vi /usr/local/Cellar/mysql/5.6.12/bin/mysql_config
 ```</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[RAILS: Eager Loading in activerecord ignores select method]]></title>
+    <link href="http://bluengreen.github.io/blog/2013/09/21/rails-eager-loading-in-activerecord-ignores-select-method/"/>
+    <updated>2013-09-21T03:25:00-05:00</updated>
+    <id>http://bluengreen.github.io/blog/2013/09/21/rails-eager-loading-in-activerecord-ignores-select-method</id>
+    <content type="html"><![CDATA[<p>If your trying to use the select method in Activercord, and you are finding that your select does not work, your issue may be with eager loading. It turns out that when you eager load with the includes method, the select method is completely ignored.</p>
+
+<!-- more -->
+
+
+<h2>This does not work</h2>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>example_controller.rb </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'> <span class="vi">@posts</span> <span class="o">=</span> <span class="no">Post</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="o">&amp;</span><span class="n">lsquo</span><span class="p">;</span><span class="n">title</span><span class="p">,</span> <span class="n">categories</span><span class="o">.</span><span class="n">name</span> <span class="no">AS</span> <span class="n">category_name</span><span class="o">&amp;</span><span class="n">rsquo</span><span class="p">;)</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;pre&gt;&lt;code&gt;          .joins(:category)</span>
+</span><span class='line'><span class="sr">          .includes(:category)</span>
+</span><span class='line'><span class="sr">          .where(&quot;categories.name=&#39;News&#39;&quot;)</span>
+</span><span class='line'><span class="sr">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;</span><span class="sr">/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt; @grouped_posts = @posts.group_by(:category_name)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2>Solution</h2>
+
+<p>Remove the includes.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>example_controller.rb </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'>  <span class="vi">@posts</span> <span class="o">=</span> <span class="no">Post</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="o">&amp;</span><span class="n">lsquo</span><span class="p">;</span><span class="n">title</span><span class="p">,</span> <span class="n">categories</span><span class="o">.</span><span class="n">name</span><span class="o">&amp;</span><span class="n">rsquo</span><span class="p">;)</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;pre&gt;&lt;code&gt;           .joins(:category)</span>
+</span><span class='line'><span class="sr">           .where(&quot;categories.name=&#39;News&#39;&quot;)</span>
+</span><span class='line'><span class="sr">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;</span><span class="sr">/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;  @grouped_posts = @posts.group_by(:category_name)   &lt;br/</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2>Beware</h2>
+
+<p>Beware that this can also happen when using gems that use eager loading. Making it harder to notice that is the issue.</p>
+
+<p>Hope this saves you some time.</p>
 ]]></content>
   </entry>
   

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: mysql | povess notes]]></title>
   <link href="http://bluengreen.github.io/blog/categories/mysql/atom.xml" rel="self"/>
   <link href="http://bluengreen.github.io/"/>
-  <updated>2013-09-21T17:53:08-05:00</updated>
+  <updated>2013-09-21T18:00:39-05:00</updated>
   <id>http://bluengreen.github.io/</id>
   <author>
     <name><![CDATA[Phillip Novess]]></name>
@@ -195,6 +195,86 @@ Replicate_Wild_Do_Table:
 <p><a href="http://www.rackspace.com/knowledge_center/article/mysql-replication-masterslave">Rackspace Knowledgebase</a></p>
 
 <p><a href="http://dev.mysql.com/doc/refman/5.6/en/replication-howto.html">MySQL Documentation</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[MySQL Cheatsheet]]></title>
+    <link href="http://bluengreen.github.io/blog/2013/09/21/mysql-cheatsheet/"/>
+    <updated>2013-09-21T04:41:00-05:00</updated>
+    <id>http://bluengreen.github.io/blog/2013/09/21/mysql-cheatsheet</id>
+    <content type="html"><![CDATA[<p>My MySQL cheatsheet. Stuff I find myself needing but never remembering. :)</p>
+
+<!-- more -->
+
+
+<h2>Backup</h2>
+
+<p>```</p>
+
+<h1>one database</h1>
+
+<p>$ mysqldump -h localhost -u root -pmypassword databasename > dumpfile.sql
+```</p>
+
+<p>```</p>
+
+<h1>all databases</h1>
+
+<p>$ mysqldump -h localhost -u root -pmypassword &mdash;all-databases > dumpfile.sql</p>
+
+<p>```</p>
+
+<h2>Restore</h2>
+
+<p>```</p>
+
+<h1>restore one database</h1>
+
+<p>$ mysql -u root -pmypassword databasename &lt; dumpfile.sql
+```</p>
+
+<p>```</p>
+
+<h1>restore all databases</h1>
+
+<p>$ mysql -u root -pmypassword &lt; dumpfile.sql
+```</p>
+
+<h2>Set admin password</h2>
+
+<p><code>
+$ mysqladmin -u root password newpassword
+</code></p>
+
+<h2>Change user password</h2>
+
+<p><code>
+$ mysql -u root -p
+mysql&gt; SET PASSWORD FOR 'user'@'hostname'=PASSWORD('passwordhere');
+mysql&gt; FLUSH PRIVILEGES;
+</code></p>
+
+<h2>Recover root password</h2>
+
+<p>```
+$ mysql.server stop
+$ mysqld_safe &mdash;skip-grant-tables &amp;
+$ mysql -u root
+mysql> USE mysql;
+mysql> UPDATE USER SET password=PASSWORD(&ldquo;newrootpassword&rdquo;) WHERE User=&lsquo;root&rsquo;;
+mysql> FLUSH PRIVILEGES;
+mysql> exit</p>
+
+<h1>mysql.server stop</h1>
+
+<h1>mysql.server start</h1>
+
+<p>```</p>
+
+<p><a href="http://dev.mysql.com/doc/refman/5.6/en/">MySQL Documentation</a></p>
+
+<p><a href="http://dev.mysql.com/doc/refman/5.6/en/mysqldump.html">MySQL mysqldump reference</a></p>
 ]]></content>
   </entry>
   
