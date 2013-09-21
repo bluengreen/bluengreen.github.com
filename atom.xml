@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[povess notes]]></title>
+  <title><![CDATA[Povess]]></title>
   <link href="http://bluengreen.github.io/atom.xml" rel="self"/>
   <link href="http://bluengreen.github.io/"/>
-  <updated>2013-09-21T03:39:57-05:00</updated>
+  <updated>2013-09-21T04:24:16-05:00</updated>
   <id>http://bluengreen.github.io/</id>
   <author>
     <name><![CDATA[Phillip Novess]]></name>
@@ -65,10 +65,62 @@
     <link href="http://bluengreen.github.io/blog/2013/09/21/linux-cheatsheet/"/>
     <updated>2013-09-21T01:26:00-05:00</updated>
     <id>http://bluengreen.github.io/blog/2013/09/21/linux-cheatsheet</id>
-    <content type="html"><![CDATA[
+    <content type="html"><![CDATA[<h2>Tar/gzip</h2>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>tar -czvf archive.tgz directory_to_archive</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Find stuff</h2>
+
+<p>Find files older than 3 days old and remove them.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>find . -mtime +3 | xargs rm -Rf</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Move stuff</h2>
+
+<p>Move files that start with any character between a and m into a directory called dir</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mv [a-m]*  dir</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>List stuff</h2>
+
+<p>List number of files in the current working directory.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ll | wc -l</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Transfer stuff</h2>
+
+<p>Copy local file to remote server.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>scp filename.txt username@servername.com:/path/to/my/remote/dir/filename.txt </span></code></pre></td></tr></table></div></figure>
+
+
+<p>Copy remote file to local file system.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>scp username@servername.com:/path/to/my/remote/dir/filename.txt ../local/filename.txt </span></code></pre></td></tr></table></div></figure>
+
+
+<h2>sysadmin</h2>
+
+<p>Look for a process with the keyword mysql</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ps -ef | grep mysql  </span></code></pre></td></tr></table></div></figure>
+
+
+<p>List iptable rules</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>iptables -L </span></code></pre></td></tr></table></div></figure>
 
 
 
