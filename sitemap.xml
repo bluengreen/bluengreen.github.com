@@ -1,12 +1,28 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
+        <loc>http://bluengreen.github.io/blog/2012/07/22/intro/</loc>
+        <lastmod>2013-09-21T02:48:08-05:00</lastmod>
+    </url>
+    <url>
+        <loc>http://bluengreen.github.io/blog/2012/07/22/the-problem-with-pingdom/</loc>
+        <lastmod>2013-09-21T02:48:08-05:00</lastmod>
+    </url>
+    <url>
+        <loc>http://bluengreen.github.io/blog/2013/09/21/linux-cheatsheet/</loc>
+        <lastmod>2013-09-21T03:02:16-05:00</lastmod>
+    </url>
+    <url>
+        <loc>http://bluengreen.github.io/about/</loc>
+        <lastmod>2013-09-21T02:48:08-05:00</lastmod>
+    </url>
+    <url>
         <loc>http://bluengreen.github.io/blog/archives/</loc>
-        <lastmod>2013-09-21T00:43:39-05:00</lastmod>
+        <lastmod>2013-09-21T03:02:16-05:00</lastmod>
     </url>
     <url>
         <loc>http://bluengreen.github.io/</loc>
-        <lastmod>2013-09-21T00:43:39-05:00</lastmod>
+        <lastmod>2013-09-21T03:02:16-05:00</lastmod>
     </url>
     <url>
         <loc>http://bluengreen.github.io/robots.txt</loc>
