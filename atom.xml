@@ -4,7 +4,7 @@
   <title><![CDATA[povess notes]]></title>
   <link href="http://bluengreen.github.io/atom.xml" rel="self"/>
   <link href="http://bluengreen.github.io/"/>
-  <updated>2013-09-21T17:52:02-05:00</updated>
+  <updated>2013-09-21T17:53:08-05:00</updated>
   <id>http://bluengreen.github.io/</id>
   <author>
     <name><![CDATA[Phillip Novess]]></name>
@@ -922,6 +922,9 @@ If your are on a very active database server. You will have additional steps sto
     <id>http://bluengreen.github.io/blog/2013/09/21/linux-cheatsheet</id>
     <content type="html"><![CDATA[<p>Helpful reminders to linux commands</p>
 
+<!-- more -->
+
+
 <h2>Tar/gzip</h2>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -934,11 +937,6 @@ If your are on a very active database server. You will have additional steps sto
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>find . -mtime +3 | xargs rm -Rf</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<!-- more -->
 
 
 <h2>Move stuff</h2>
